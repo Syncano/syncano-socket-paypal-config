@@ -1,0 +1,52 @@
+name: paypal-config
+description: PayPal configuration on Syncano
+version: 0.0.1
+
+keywords:
+  - paypal
+  - configuration
+
+classes:
+  paypal_config:
+    - name: PAYPAL_CLIENT_ID
+      type: string
+    - name: PAYPAL_CLIENT_SECRET
+      type: string
+    - name: PAYPAL_MODE
+      type: string
+
+endpoints:
+  install:
+    description: Install AWS config.
+    file: install.js
+    parameters:
+      PAYPAL_CLIENT_ID:
+        type: string
+        description: PayPal app Client ID
+      PAYPAL_CLIENT_SECRET:
+        description: PayPal app secret
+        type: string
+      PAYPAL_MODE:
+        description: Configuration mode, which is 'sandbox' for testing or 'live' for production
+        type: string
+    response:
+      mimetype: application/json
+      examples:
+        - exit_code: 200
+          description: Successfully installed
+          example: |
+            {
+              "message": "Installed successfully"
+            }
+        - exit_code: 403
+          description: Unauthorize
+          example: |
+            {
+              "message": "You are not authorised for this action"
+            }
+        - exit_code: 400
+          description: Installation failure
+          example: |
+            {
+              "message": "Error installing PayPal config"
+            }
