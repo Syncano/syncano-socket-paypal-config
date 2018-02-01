@@ -1,11 +1,11 @@
 import Server from 'syncano-server';
-import { validateRequired, isAdmin } from './utils/helpers';
+import validateRequired from './utils/helpers';
 
 export default async (ctx) => {
   const server = Server(ctx);
   const { response, data } = server;
   try {
-    if (!await isAdmin(ctx)) {
+    if (!ctx.meta.admin) {
       return response.json({ message: 'You are not authorised for this action' }, 403);
     }
     const { PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET } = ctx.args;

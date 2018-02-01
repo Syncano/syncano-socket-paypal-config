@@ -20,14 +20,4 @@ const validateRequired = (obj, customMessage = 'Validation error(s)', statusCode
   }
 };
 
-async function isAdmin(ctx) {
-  if (!ctx.meta.admin) {
-    return false;
-  }
-  return true;
-}
-
-export {
-  validateRequired,
-  isAdmin
-};
+export default validateRequired;
