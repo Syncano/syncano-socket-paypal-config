@@ -1,9 +1,10 @@
-import Server from 'syncano-server';
+import Syncano from 'syncano-server';
 import validateRequired from './utils/helpers';
 
 export default async (ctx) => {
-  const server = Server(ctx);
+  const server = new Syncano(ctx);
   const { response, data } = server;
+
   try {
     if (!ctx.meta.admin) {
       return response.json({ message: 'You are not authorised for this action' }, 403);
@@ -11,10 +12,13 @@ export default async (ctx) => {
     const { PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET } = ctx.args;
     validateRequired({ PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET });
 
-    const paypalConfig = await data.paypal_config.firstOrCreate({}, {});
-    await data.paypal_config.update(paypalConfig.id,
-      { PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET });
-
+    const checkInstallation = await data.paypal_config.first();
+    if (checkInstallation) {
+      await data.paypal_config.update(checkInstallation.id,
+        { PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET });
+    } else {
+      await data.paypal_config.create({ PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET });
+    }
     return response.json({ message: 'Installed successfully' }, 200);
   } catch (err) {
     const { customMessage, details, status, message } = err;

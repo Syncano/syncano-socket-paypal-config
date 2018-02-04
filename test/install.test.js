@@ -1,13 +1,11 @@
-/* global describe it before after */
 import { assert } from 'chai';
-import { run } from '@syncano/test';
+import { run } from 'syncano-test';
 import 'dotenv/config';
 
 describe('install', () => {
   const meta = {
     admin: { id: 1, email: 'testEmail@gmail.com' }
   };
-
   const args = {
     PAYPAL_CLIENT_ID: 'client_id',
     PAYPAL_CLIENT_SECRET: 'client_secret',
@@ -32,6 +30,18 @@ describe('install', () => {
       .then((res) => {
         assert.propertyVal(res, 'code', 400);
         assert.propertyVal(res.data, 'message', 'Validation error(s)');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should install PayPal config successfully if valid credentials sent by admin', (done) => {
+    run('install', { args, meta })
+      .then((res) => {
+        assert.propertyVal(res, 'code', 200);
+        assert.propertyVal(res.data, 'message', 'Installed successfully');
         done();
       })
       .catch((err) => {
