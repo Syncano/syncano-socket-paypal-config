@@ -1,5 +1,7 @@
 # paypal-config
 
+[![CircleCI](https://circleci.com/gh/Syncano/syncano-socket-paypal-config.svg?style=svg)](https://circleci.com/gh/Syncano/syncano-socket-paypal-config)
+
 `version:` **0.0.1**
 
 PayPal configuration on Syncano
