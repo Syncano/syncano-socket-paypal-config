@@ -21,9 +21,9 @@ export default async (ctx) => {
     }
     return response.json({ message: 'Installed successfully' }, 200);
   } catch (err) {
-    const { customMessage, details, status, message } = err;
-    if (customMessage) {
-      return response.json({ message: customMessage, details }, 400);
+    const { details, status, message } = err;
+    if (details) {
+      return response.json({ message, details }, 400);
     }
     if (status) {
       return response.json({ message }, status);
