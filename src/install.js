@@ -20,8 +20,7 @@ export default async (ctx) => {
       await data.paypal_config.create({ PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET });
     }
     return response.json({ message: 'Installed successfully' }, 200);
-  } catch (err) {
-    const { details, status, message } = err;
+  } catch ({ details, status, message }) {
     if (details) {
       return response.json({ message, details }, 400);
     }
