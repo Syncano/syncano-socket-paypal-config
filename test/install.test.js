@@ -1,10 +1,11 @@
-import { assert } from 'chai';
-import { run } from 'syncano-test';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { run } from '@syncano/test';
 import 'dotenv/config';
 
 describe('install', () => {
   const meta = {
-    admin: { id: 1, email: 'testEmail@gmail.com' }
+    token: process.env.CLI_ACCOUNT_KEY
   };
   const args = {
     PAYPAL_CLIENT_ID: 'client_id',
@@ -12,40 +13,23 @@ describe('install', () => {
     PAYPAL_MODE: 'sandbox'
   };
 
-  it('should return unauthorized error if admin token not sent with request', (done) => {
-    run('install', { args })
-      .then((res) => {
-        assert.propertyVal(res, 'code', 403);
-        assert.propertyVal(res.data, 'message', 'You are not authorised for this action');
-        done();
-      })
-      .catch((err) => {
-        done(err);
-      });
+  it('should return unauthorized error if admin token not sent with request', async () => {
+    const res = await run('install', { args, meta: undefined });
+    expect(res.code).to.equal(403);
   });
 
-  it('should return message "Validation error(s)" if required parameter empty', (done) => {
+  it('should return message "Validation error(s)" if required parameter empty', async () => {
     const argsValidation = { ...args, PAYPAL_CLIENT_ID: '' };
-    run('install', { args: argsValidation, meta })
-      .then((res) => {
-        assert.propertyVal(res, 'code', 400);
-        assert.propertyVal(res.data, 'message', 'Validation error(s)');
-        done();
-      })
-      .catch((err) => {
-        done(err);
-      });
+    const { data, code } = await run('install', { args: argsValidation, meta });
+    expect(code).to.equal(400);
+    expect(data).to.have.property('message');
+    expect(data.message).to.equal('Validation error(s)');
   });
 
-  it('should install PayPal config successfully if valid credentials sent by admin', (done) => {
-    run('install', { args, meta })
-      .then((res) => {
-        assert.propertyVal(res, 'code', 200);
-        assert.propertyVal(res.data, 'message', 'Installed successfully');
-        done();
-      })
-      .catch((err) => {
-        done(err);
-      });
+  it('should install PayPal config if valid credentials sent by admin', async () => {
+    const { data, code } = await run('install', { args, meta });
+    expect(code).to.equal(200);
+    expect(data).to.have.property('message');
+    expect(data.message).to.equal('Installed successfully');
   });
 });

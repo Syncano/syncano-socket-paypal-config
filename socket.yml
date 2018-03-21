@@ -41,17 +41,18 @@ endpoints:
               "message": "Installed successfully"
             }
       fail:
-        exit_code: 403
-        description: Unauthorized
-        examples:
-          - |
-            {
-              "detail": "You do not have permission to perform this action."
-            }
         exit_code: 400
         description: Installation failure
         examples:
           - |
             {
               "message": "Error installing PayPal config"
+            }
+      Unauthorize:
+        exit_code: 403
+        description: Unauthorized
+        examples:
+          - |
+            {
+              "detail": "You do not have permission to perform this action."
             }
