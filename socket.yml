@@ -1,6 +1,7 @@
 name: paypal-config
 description: PayPal configuration on Syncano
 version: 0.0.1
+runtime: nodejs_v8
 
 keywords:
   - paypal
@@ -17,36 +18,40 @@ classes:
 
 endpoints:
   install:
-    description: Install AWS config.
-    file: install.js
-    parameters:
-      PAYPAL_CLIENT_ID:
-        type: string
-        description: PayPal app Client ID
-      PAYPAL_CLIENT_SECRET:
-        description: PayPal app secret
-        type: string
-      PAYPAL_MODE:
-        description: Configuration mode, which is 'sandbox' for testing or 'live' for production
-        type: string
-    response:
-      mimetype: application/json
-      examples:
-        - exit_code: 200
-          description: Successfully installed
-          example: |
+    private: true
+    description: Install AWS config on instance.
+    inputs:
+      properties:
+        PAYPAL_CLIENT_ID:
+          type: string
+          description: PayPal app Client ID
+        PAYPAL_CLIENT_SECRET:
+          description: PayPal app secret
+          type: string
+        PAYPAL_MODE:
+          description: Configuration mode, which is 'sandbox' for testing or 'live' for production
+          type: string
+    outputs:
+      success:
+        exit_code: 200
+        description: Success
+        examples:
+          - |
             {
               "message": "Installed successfully"
             }
-        - exit_code: 403
-          description: Unauthorize
-          example: |
+      fail:
+        exit_code: 403
+        description: Unauthorized
+        examples:
+          - |
             {
-              "message": "You are not authorised for this action"
+              "detail": "You do not have permission to perform this action."
             }
-        - exit_code: 400
-          description: Installation failure
-          example: |
+        exit_code: 400
+        description: Installation failure
+        examples:
+          - |
             {
               "message": "Error installing PayPal config"
             }

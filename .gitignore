@@ -2,7 +2,6 @@
 .dist/
 node_modules
 coverage/
-**/scripts/.bundles
 **/.DS_Store
 .DS_STORE
 .envrc

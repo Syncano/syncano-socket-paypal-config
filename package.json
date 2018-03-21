@@ -1,10 +1,6 @@
 {
   "name": "syncano-socket-paypal-config",
   "description": "Syncano Socket for PayPal configuration",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Syncano/syncano-socket-paypal-config/"
-  },
   "license": "MIT",
   "keywords": [
     "paypal",
@@ -17,15 +13,19 @@
     ]
   },
   "scripts": {
+    "build": "npm run build:src && npm run build:env",
+    "build:src": "sh ./bin/compile",
+    "build:env": "sh ./bin/compile-env",
     "test:e2e": "cross-env NODE_ENV=test nyc --reporter=html mocha --opts ./test/utils/mocha.opts ./test/install.test.js",
     "test": "npm run lint && npm run test:e2e && nyc report",
     "lint": "esw src test"
   },
   "dependencies": {
-    "syncano-server": "beta"
+    "@syncano/core": "latest"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "@syncano/test": "^0.11.0",
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
@@ -39,7 +39,6 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-watch": "^3.1.3",
     "mocha": "^4.0.1",
-    "nyc": "^11.3.0",
-    "syncano-test": "^0.3.3"
+    "nyc": "^11.3.0"
   }
 }

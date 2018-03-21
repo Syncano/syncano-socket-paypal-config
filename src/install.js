@@ -1,4 +1,4 @@
-import Syncano from 'syncano-server';
+import Syncano from '@syncano/core';
 import validateRequired from './utils/helpers';
 
 export default async (ctx) => {
@@ -6,9 +6,6 @@ export default async (ctx) => {
   const { response, data } = server;
 
   try {
-    if (!ctx.meta.admin) {
-      return response.json({ message: 'You are not authorised for this action' }, 403);
-    }
     const { PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET } = ctx.args;
     validateRequired({ PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET });
 
