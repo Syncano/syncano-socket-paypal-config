@@ -61,7 +61,7 @@ jobs:
       - run: SYNCANO_AUTH_KEY=$CLI_ACCOUNT_KEY SYNCANO_HOST=api.syncano.io npx s publish ${SOCKET_NAME}
       - run:
           name: Avoid hosts unknown for github
-          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+          command: mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run: git config --global user.email $GITHUB_EMAIL && git config --global user.name $GITHUB_NAME
       - run: git commit -a -m "Bumping version [ci skip]" && git push origin $CIRCLE_BRANCH
 
