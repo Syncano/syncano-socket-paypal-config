@@ -26,7 +26,7 @@ syncano-cli add paypal-config
 
 ### install
 
-Install AWS config.
+Install Paypal config.
 
 #### Parameters
 

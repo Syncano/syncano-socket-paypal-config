@@ -19,7 +19,7 @@ classes:
 endpoints:
   install:
     private: true
-    description: Install AWS config on instance.
+    description: Install Paypal config on instance.
     inputs:
       properties:
         PAYPAL_CLIENT_ID:
