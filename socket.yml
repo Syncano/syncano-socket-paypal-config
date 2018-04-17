@@ -1,0 +1,58 @@
+name: paypal-config
+description: PayPal configuration on Syncano
+version: 0.0.1
+runtime: nodejs_v8
+
+keywords:
+  - paypal
+  - config
+
+classes:
+  paypal_config:
+    - name: PAYPAL_CLIENT_ID
+      type: string
+    - name: PAYPAL_CLIENT_SECRET
+      type: string
+    - name: PAYPAL_MODE
+      type: string
+
+endpoints:
+  install:
+    private: true
+    description: Install Paypal config on instance.
+    inputs:
+      properties:
+        PAYPAL_CLIENT_ID:
+          type: string
+          description: PayPal app Client ID
+        PAYPAL_CLIENT_SECRET:
+          description: PayPal app secret
+          type: string
+        PAYPAL_MODE:
+          description: Configuration mode, which is 'sandbox' for testing or 'live' for production
+          type: string
+    outputs:
+      success:
+        exit_code: 200
+        description: Success
+        examples:
+          - |
+            {
+              "message": "Installed successfully"
+            }
+      fail:
+        exit_code: 400
+        description: Installation failure
+        examples:
+          - |
+            {
+              "message": "Error installing PayPal config"
+            }
+      Unauthorize:
+        exit_code: 403
+        description: Unauthorized
+        examples:
+          - |
+            {
+              "detail": "You do not have permission to perform this action."
+            }
